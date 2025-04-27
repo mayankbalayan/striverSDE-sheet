@@ -1,0 +1,77 @@
+// brute force t.c in order of n^3
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to mark entire row
+void markRow(vector<vector<int>>& matrix, int row) {
+    int m = matrix[0].size();
+    for (int j = 0; j < m; j++) {
+        if (matrix[row][j] != 0) { // mark non-zero elements with a special marker (say -1)
+            matrix[row][j] = -1;
+        }
+    }
+}
+
+// Function to mark entire column
+void markCol(vector<vector<int>>& matrix, int col) {
+    int n = matrix.size();
+    for (int i = 0; i < n; i++) {
+        if (matrix[i][col] != 0) { // mark non-zero elements with a special marker (say -1)
+            matrix[i][col] = -1;
+        }
+    }
+}
+
+void setZeroes(vector<vector<int>>& matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                markRow(matrix, i);
+                markCol(matrix, j);
+            }
+        }
+    }
+
+    // Finally set all marked cells to 0
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == -1) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+void printMatrix(const vector<vector<int>>& matrix) {
+    int n = matrix.size();     // number of rows
+    int m = matrix[0].size();   // number of columns
+
+    for (int i = 0; i < n; i++) {         // loop over rows
+        for (int j = 0; j < m; j++) {     // loop over columns
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    vector<vector<int>> matrix = {
+        {{-1},{2},{3}}
+
+
+    };
+
+    cout << "Original Matrix:\n";
+    printMatrix(matrix);
+
+    setZeroes(matrix);
+
+    cout << "\nMatrix After Setting Zeroes:\n";
+    printMatrix(matrix);
+
+    return 0;
+}
